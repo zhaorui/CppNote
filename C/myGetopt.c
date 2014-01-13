@@ -4,6 +4,9 @@
 //extern char *optarg;
 //extern int optind, opterr, optopt;
 
+//static const char *options = "abcd:efgh::ijklmnopqrstuvwxyz";
+static const char *options = ":abcd:efgh::ijklmnopqrst";
+
 void inline printf_optarg()
 {
     if(optarg!=NULL && strlen(optarg)!=0)
@@ -33,7 +36,7 @@ int main(int argc,char *argv[])
         printf("optopt: %d\n",optopt);
     }
 
-    printf("++++++ Debug Getopt ++++++\n");
+    printf("\n++++++ Debug Getopt ++++++\n");
     printf_optarg();
     printf("optind: %d\n",optind);
     printf("opterr: %d\n",opterr);
