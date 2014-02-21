@@ -1,11 +1,21 @@
 #include <unistd.h>
 #include <stdio.h>
+#include <getopt.h> // getopt_long
 #include <string.h>
+
 //extern char *optarg;
 //extern int optind, opterr, optopt;
 
-//static const char *options = "abcd:efgh::ijklmnopqrstuvwxyz";
-static const char *options = ":abcd:efgh::ijklmnopqrst";
+/* options descriptor */
+int bflag, ch, fd;
+int daggerset;
+static const char *options = ":bf:";
+static struct option longopts[] = {
+     { "buffy",      no_argument,            NULL,           'b' },
+     { "fluoride",   required_argument,      NULL,           'f' },
+     { "daggerset",  no_argument,            &daggerset,     1 },
+     { NULL,         0,                      NULL,           0 }
+};
 
 void inline printf_optarg()
 {
@@ -17,8 +27,6 @@ void inline printf_optarg()
 
 int main(int argc,char *argv[])
 {
-    int ch;
-
     printf("++++++ Debug Getopt ++++++\n");
     printf_optarg();
     printf("optind: %d\n",optind);
@@ -26,10 +34,11 @@ int main(int argc,char *argv[])
     printf("optopt: %d\n",optopt);
     printf("++++++++++++++++++++++++++\n\n");
 
-    while((ch=getopt(argc,argv,options))!=-1)
+    while((ch=getopt_long(argc,argv,options,longopts,NULL))!=-1)
     {
         printf("------------------------\n");
-        printf("ch:     %c\n",(char)ch);
+        printf("ch:     %c(%d)\n",(char)ch,ch);
+        printf("daggerset: %d\n",daggerset);
         printf_optarg();
         printf("optind: %d\n",optind);
         printf("opterr: %d\n",opterr);
