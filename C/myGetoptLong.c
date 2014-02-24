@@ -9,10 +9,11 @@
 /* options descriptor */
 int bflag, ch, fd;
 int daggerset;
-static const char *options = ":bf:";
+static const char *options = ":bf:k";
 static struct option longopts[] = {
      { "buffy",      no_argument,            NULL,           'b' },
      { "fluoride",   required_argument,      NULL,           'f' },
+     { "pkinit",     optional_argument,      NULL,           'k'},
      { "daggerset",  no_argument,            &daggerset,     1 },
      { NULL,         0,                      NULL,           0 }
 };
@@ -34,16 +35,32 @@ int main(int argc,char *argv[])
     printf("optopt: %d\n",optopt);
     printf("++++++++++++++++++++++++++\n\n");
 
-    while((ch=getopt_long(argc,argv,options,longopts,NULL))!=-1)
+    while((ch=getopt_long(argc-1,argv+1,options,longopts,NULL))!=-1)
     {
         printf("------------------------\n");
-        printf("ch:     %c(%d)\n",(char)ch,ch);
+        printf("ch:     %c (%d)\n",(char)ch,ch);
         printf("daggerset: %d\n",daggerset);
         printf_optarg();
         printf("optind: %d\n",optind);
         printf("opterr: %d\n",opterr);
-        printf("optopt: %d\n",optopt);
+        printf("optopt: %c (%d)\n",(char)optopt,optopt);
     }
+
+    optind=2;
+    optreset=1;
+    printf("----- Second Round -----\n");
+    while((ch=getopt_long(argc,argv,options,longopts,NULL))!=-1)
+    {
+        
+        printf("------------------------\n");
+        printf("ch:     %c (%d)\n",(char)ch,ch);
+        printf("daggerset: %d\n",daggerset);
+        printf_optarg();
+        printf("optind: %d\n",optind);
+        printf("opterr: %d\n",opterr);
+        printf("optopt: %c (%d)\n",(char)optopt,optopt);
+    }
+
 
     printf("\n++++++ Debug Getopt ++++++\n");
     printf_optarg();
